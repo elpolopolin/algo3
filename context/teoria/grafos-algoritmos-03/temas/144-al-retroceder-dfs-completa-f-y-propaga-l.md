@@ -1,0 +1,41 @@
+# Al retroceder, DFS completa _f_ y propaga low 
+
+
+![](../imagenes/Graph_Algorithms.pdf-0116-06.png)
+
+
+<!-- Start of picture text -->
+a f<br>c d e<br>b g<br>árbol DFS retroceso<br>orden:  a, b, c, d, e, f , g ; en  c se examina  d antes que  a<br><!-- End of picture text -->
+
+|_u_|_d_[_u_]|_f_[_u_]<br>low[_u_]|
+|---|---|---|
+|_a_|1|–<br>1|
+|_b_|2|–<br>2|
+|_c_|3|–<br>3|
+|_d_|4|–<br>4|
+|_e_|5|–<br>5|
+|_f_|6|–<br>5|
+|_g_|7|8<br>5|
+
+
+
+**9. Finaliza** _g_ **y vuelve a** _f_ **.** 
+
+_f_ [ _g_ ] = 8 _,_ low[ _f_ ] _←_ m´ın _{_ 6 _,_ low[ _g_ ] _}_ = 5 _._ 
+
+2<sup>_do_</sup> Cuatrimestre de 2026 55 / 58 
+
+(DC, FCEyN, UBA) 
+
+DC - FCEyN - UBA 
+
+Ordenamiento topológico 
+
+Búsqueda a lo ancho 
+
+Búsqueda en profundidad 
+
+Detección de aristas de corte 
+
+Los grafos como modelos 
+

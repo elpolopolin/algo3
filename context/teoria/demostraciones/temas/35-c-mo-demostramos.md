@@ -1,0 +1,26 @@
+# ¿Cómo demostramos? 
+
+Al escribir una demostración, en general vamos a seguir estos pasos: 1 **Formalizar la consigna.** Traducir el enunciado a objetos matemáticos. 2 **Comprender qué se nos pide.** ¿Qué asumimos? ¿Qué hay que probar? 
+
+2<sup>_do_</sup> Cuatrimestre de 2026 
+
+(DC, FCEyN, UBA) 
+
+DC - FCEyN - UBA 
+
+9 / 36 
+
+¿Qué es una demostración? 
+
+¿Cómo demostramos? 
+
+Complejidad asintótica 
+
+Otras herramientas 
+
+Para Cerrar 
+
+Inducción 
+
+Algoritmos recursivos 
+

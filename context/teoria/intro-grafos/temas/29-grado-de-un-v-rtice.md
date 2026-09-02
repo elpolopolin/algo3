@@ -1,0 +1,2 @@
+# Grado de un vértice 
+

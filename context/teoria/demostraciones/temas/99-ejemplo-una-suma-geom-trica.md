@@ -1,0 +1,2 @@
+# Ejemplo: una suma geométrica 
+
