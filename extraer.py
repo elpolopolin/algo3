@@ -33,6 +33,7 @@ PRACTICA = {
     "context/practica/pdfs/practica_1_repaso.pdf": "practica_1.md",
     "context/practica/pdfs/practica_2_intro_grafos.pdf": "practica_2.md",
     "context/practica/pdfs/practica_3_algoritmos_grafos.pdf": "practica_3.md",
+    "context/practica/pdfs/practica_4_divide_and_conquer.pdf": "practica_4.md",
 }
 
 PRACTICA_OUT = pathlib.Path("context/practica/context")

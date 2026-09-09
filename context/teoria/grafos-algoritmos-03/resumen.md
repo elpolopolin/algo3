@@ -432,3 +432,191 @@ O(n) + O( Σ d(v) )  =  O(n + 2m)  =  O(n + m)
 7. Al terminar, `d[v] = δ(s, v)` **garantizado** (teorema).
 8. Cuesta **`O(n + m)`** con listas de adyacencia.
 9. Las **distancias son únicas**; el **árbol no** (depende del orden de las listas de vecinos).
+
+---
+
+# Ordenamiento topológico
+
+> Ampliación del resumen: la parte de la teórica que no cubría la sección de BFS.
+
+## Qué es
+
+Sea $D = (V, E)$ un digrafo. Un **ordenamiento topológico** de $D$ es un orden
+lineal $v_1, v_2, \dots, v_n$ de **todos** sus vértices tal que
+$$v_i \to v_j \in E \implies i < j.$$
+
+En criollo: si los dibujás en una fila en ese orden, **todas las flechas
+avanzan hacia la derecha**.
+
+![Todas las flechas avanzan en el orden](imagenes/Graph_Algorithms.pdf-0014-07.png)
+
+## Los dos resultados que lo hacen funcionar
+
+> **Lema.** Todo digrafo acíclico (DAG) tiene un vértice $v$ con
+> $d^-(v) = 0$ (grado de entrada cero).
+
+> **Teorema.** Un digrafo admite un ordenamiento topológico **si y sólo si** es
+> acíclico.
+
+El lema es lo que hace que el algoritmo nunca se trabe; el teorema es la
+caracterización. La ida del teorema ("si admite orden topológico entonces es
+acíclico") se hace naturalmente **por contrarrecíproco**: si tuviera un ciclo
+$v_1 \to v_2 \to \dots \to v_k \to v_1$, el orden obligaría a
+$i_1 < i_2 < \dots < i_k < i_1$, absurdo.
+
+Para el lema, el argumento típico es el del **primer elemento**: tomar un camino
+lo más largo posible y mirar su primer vértice; si tuviera un vecino entrante,
+el camino se podría extender (o se cerraría un ciclo).
+
+## Algoritmo, versión recursiva
+
+1. Buscar un vértice $u$ con $d^-(u) = 0$ y agregarlo al final del orden.
+2. Eliminar $u$ de $D$.
+3. Aplicar recursivamente al digrafo $D - u$.
+4. Si el digrafo restante **no es vacío** y **no tiene** ningún vértice de grado
+   de entrada cero, entonces contiene un **ciclo dirigido**.
+
+**Complejidad.** Con listas de adyacencia, buscar y eliminar un vértice cuesta
+$O(n+m)$. Como se hacen hasta $n$ pasos, esta versión cuesta
+$$O\big(n(n+m)\big).$$
+
+## Algoritmo, versión con cola (lineal)
+
+La mejora: en vez de **rebuscar** el vértice de grado de entrada cero cada vez,
+se mantiene una **cola** con los que ya están disponibles.
+
+```
+ORDEN-TOPOLÓGICO(D)
+  Inicialización
+   1  n <- |V(D)|;  L <- ⟨⟩
+   2  computar entrada[v] = d⁻(v) para todo v ∈ V(D)
+   3  Q <- cola vacía
+   4  para todo v ∈ V(D) hacer
+   5      si entrada[v] = 0 entonces
+   6          ENCOLAR(Q, v)
+  Construcción del orden
+   7  mientras Q ≠ ∅ hacer
+   8      u <- DESENCOLAR(Q)
+   9      agregar u al final de L
+  10      para todo v ∈ N⁺(u) hacer
+  11          entrada[v] <- entrada[v] − 1
+  12          si entrada[v] = 0 entonces
+  13              ENCOLAR(Q, v)
+  14  si |L| < n entonces
+  15      devolver "D tiene un ciclo"
+  16  devolver L
+```
+
+**Por qué es lineal:** cada vértice se encola **una sola vez** y cada arista se
+procesa **una sola vez** (cuando se decrementa el contador de su destino). Con
+listas de adyacencia:
+$$O\big(|V(D)| + |E(D)|\big).$$
+
+**Detección de ciclos gratis:** si la cola se vacía antes de tiempo y
+$|L| < |V(D)|$, el subdigrafo inducido por los vértices restantes contiene un
+ciclo, y no existe orden topológico.
+
+![Resultado: todas las aristas apuntan a la derecha](imagenes/Graph_Algorithms.pdf-0027-08.png)
+
+---
+
+# Aristas de corte (puentes) con DFS
+
+## Clasificación de aristas en DFS
+
+Cuando DFS (Depth-First Search, búsqueda en profundidad) examina una arista
+$(u,v)$, el vértice $u$ está **gris**. El color del destino clasifica la arista:
+
+| `color[v]` | tipo de $(u,v)$ | razón |
+|---|---|---|
+| blanco | **árbol** | $v$ se descubre mediante $(u,v)$ |
+| gris | **retroceso** (back edge) | $v$ es un ancestro activo de $u$ |
+| negro | **avance** o **cruce** | $v$ ya terminó de procesarse |
+
+**Idea clave.** Los vértices grises forman una **cadena de ancestros**: son
+exactamente las llamadas activas de la pila. Por eso una arista hacia un vértice
+gris necesariamente vuelve hacia un ancestro.
+
+Si $v$ está negro, los tiempos distinguen los dos casos:
+$d[u] < d[v] \Rightarrow$ avance, $d[v] < d[u] \Rightarrow$ cruce.
+
+> **Teorema.** En una DFS de un grafo **no dirigido**, toda arista es de **árbol**
+> o de **retroceso**. (No hay avance ni cruce.)
+>
+> *Idea:* sea $\{u,v\} \in E$ con $d[u] < d[v]$. Si la arista se examina primero
+> desde $u$, entonces $v$ todavía está blanco y la arista entra al árbol. Si se
+> examina primero desde $v$, entonces $u$ todavía está gris y es ancestro de $v$:
+> es de retroceso. Los dos casos agotan las posibilidades.
+
+Este teorema es exactamente lo que pide el ejercicio 12b de la práctica 3
+("si $(v,w) \in E(G) \setminus E(T)$ entonces uno es ancestro del otro").
+
+Propiedad que se usa todo el tiempo: **si $x$ es ancestro propio de $u$ en el
+bosque DFS, entonces $d[x] < d[u]$.**
+
+## `low[u]`: hasta dónde puede volver el subárbol de $u$
+
+Definimos `low[u]` como el **menor tiempo de descubrimiento** de un vértice al
+que se puede llegar desde $u$:
+
+- bajando **cero o más** aristas del árbol DFS; y luego
+- usando **a lo sumo una** arista que no pertenece al árbol.
+
+Formalmente:
+$$\texttt{low}[u] = \min \begin{cases} d[u] \\ d[v] : \{u,v\} \text{ es arista de retroceso y } v \text{ es ancestro de } u \\ \texttt{low}[w] : \pi[w] = u \end{cases}$$
+
+Las **dos actualizaciones** que reúnen toda esa información:
+
+- Al **descubrir** $u$, sólo sabemos que $u$ se alcanza a sí mismo:
+  `low[u] ← d[u]`.
+- Cuando un **hijo $v$ termina** de procesarse: todo lo alcanzable desde el
+  subárbol de $v$ también lo es desde el de $u$, entonces
+  `low[u] ← mín{low[u], low[v]}`.
+- Cuando se examina una arista que **no es la del padre**: la arista $uv$ llega
+  directo a un vértice ya descubierto, entonces
+  `low[u] ← mín{low[u], d[v]}`.
+
+Como la actualización con `low[v]` se hace **después** de la llamada recursiva,
+los valores se propagan **de las hojas hacia la raíz**.
+
+## El criterio de puente
+
+> **Teorema.** Sea $G$ un grafo con $uv \in E(G)$ y $\pi$ producido por DFS.
+> Entonces $uv$ es puente de $G$, con $\pi[v] = u$, **si y sólo si**
+> $$\texttt{low}[v] > d[u].$$
+
+En criollo: la arista al padre es puente **exactamente cuando el subárbol de $v$
+no tiene ninguna forma de volver a $u$ o más arriba**. Si `low[v] ≤ d[u]`, hay
+una arista de retroceso que "cortocircuitea" y la arista no es puente.
+
+Notar la conexión con la unidad anterior: en intro-grafos vimos que *$e$ es
+arista de corte si y sólo si $e$ no pertenece a ningún ciclo*. `low` es
+justamente la forma de chequear "¿está en un ciclo?" en tiempo lineal.
+
+## El algoritmo completo
+
+1. Ejecutar una **DFS ordinaria** y calcular $T$, $d$, $f$ y $\pi$.
+2. Una vez terminada la DFS, **calcular los `low`** recorriendo $T$ desde las
+   hojas hacia las raíces (versión *offline*), o calcularlos al retroceder
+   dentro de la propia DFS (versión *online*, un solo recorrido).
+3. Para cada arista $\{\pi[v], v\}$ del bosque, decidir si es puente comparando
+   `low[v]` con $d[\pi[v]]$.
+
+Complejidad: $O(|V| + |E|)$ — es una DFS más trabajo constante por arista.
+
+## Fuentes
+
+- `temas/15-un-orden-topol-gico-respeta-todas-las-ar.md` (L1-13) — definición de orden topológico
+- `temas/16-lema.md` (L1-16) — todo DAG tiene un vértice de grado de entrada 0
+- `temas/17-teorema.md` (L1-32) — admite orden topológico ⟺ es acíclico
+- `temas/22-algoritmo-recursivo.md` (L1-22) — algoritmo recursivo y detección de ciclo
+- `temas/23-complejidad.md` (L1-34) — costo $O(n(n+m))$ de la versión ingenua
+- `temas/25-una-cola-mantiene-los-v-rtices-disponibl.md` (L1-48) — pseudocódigo con cola
+- `temas/33-el-resultado-coloca-el-origen-antes-que-.md` (L1-29) — costo lineal y qué pasa si la cola se vacía
+- `temas/106-el-color-del-destino-clasifica-la-arista.md` (L1-30) — clasificación de aristas por color
+- `temas/110-teorema.md` (L1-102) — en no dirigidos sólo hay árbol y retroceso
+- `temas/118-propiedad-que-vamos-a-usar.md` (L1-38) — ancestro propio implica $d[x] < d[u]$
+- `temas/119-low-u-indica-hasta-d-nde-puede-volver-el.md` (L1-28) — definición de `low`
+- `temas/121-idea-del-algoritmo.md` (L1-36) — los tres pasos del algoritmo
+- `temas/153-las-dos-actualizaciones-de-low-re-nen-to.md` (L1-6), `temas/154-un-hijo-v-termina-de-procesarse.md` (L1-58) — las actualizaciones de `low`
+- `temas/157-teorema.md` (L1-76) — criterio `low[v] > d[u]`
