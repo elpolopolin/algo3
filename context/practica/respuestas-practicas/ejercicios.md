@@ -12,8 +12,8 @@ La idea de fondo, que es la que hay que llevarse:
 
 > El grafo (el dibujo con puntos y líneas) y su representación (cómo lo guardo en memoria) **son dos cosas distintas**. Elegir una representación no cambia el grafo: cambia **el precio de cada operación**.
 >
-> `../../teoria/grafos-algoritmos/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — El grafo y su representación son objetos diferentes
-> `../../teoria/grafos-algoritmos/temas/04-un-mismo-grafo-admite-distintas-represen.md` — "La elección no cambia el grafo; cambia cómo accedemos a su información."
+> `../../teoria/grafos-algoritmos-03/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — El grafo y su representación son objetos diferentes
+> `../../teoria/grafos-algoritmos-03/temas/04-un-mismo-grafo-admite-distintas-represen.md` — "La elección no cambia el grafo; cambia cómo accedemos a su información."
 
 ### Vocabulario mínimo
 
@@ -32,7 +32,7 @@ La idea de fondo, que es la que hay que llevarse:
 
 Un detalle del enunciado que simplifica todo: **los vértices son siempre 0, 1, ..., n−1**. Como son números consecutivos, puedo usarlos directamente como posición dentro de un arreglo y llegar a N(v) en O(1) sin buscar nada.
 
-> `../../teoria/grafos-algoritmos/temas/03-representamos-el-grafo-mediante-sus-veci.md` — "En la práctica suponemos V = {0, ..., n−1}."
+> `../../teoria/grafos-algoritmos-03/temas/03-representamos-el-grafo-mediante-sus-veci.md` — "En la práctica suponemos V = {0, ..., n−1}."
 
 ---
 
@@ -42,19 +42,19 @@ Un detalle del enunciado que simplifica todo: **los vértices son siempre 0, 1, 
 
 Un arreglo con n casilleros (uno por vértice). En el casillero v guardo **una lista con los vecinos de v**, y nada más.
 
-![Grafo y sus listas de adyacencias](../../teoria/grafos-algoritmos/imagenes/Graph_Algorithms.pdf-0005-09.png)
+![Grafo y sus listas de adyacencias](../../teoria/grafos-algoritmos-03/imagenes/Graph_Algorithms.pdf-0005-09.png)
 
 Cada lista puede ser un **arreglo dinámico** (memoria contigua, se agranda sola al llenarse) o una **lista enlazada** (cadena de nodos, cada uno con un puntero al siguiente):
 
-![Listas enlazadas, una por vértice](../../teoria/grafos-algoritmos/imagenes/Graph_Algorithms.pdf-0006-06.png)
+![Listas enlazadas, una por vértice](../../teoria/grafos-algoritmos-03/imagenes/Graph_Algorithms.pdf-0006-06.png)
 
 Dos observaciones importantes:
 
 - En un grafo **no dirigido** cada arista `vw` aparece **dos veces**: una en la lista de v y otra en la lista de w. En un **digrafo** (grafo dirigido, las aristas tienen flecha) aparece una sola vez, en la lista del origen.
 - El **orden de los vecinos dentro de cada lista lo elijo yo**: el grafo no lo impone.
 
-> `../../teoria/grafos-algoritmos/temas/05-las-listas-almacenan-solamente-los-vecin.md` — "El orden de los vecinos no está determinado por el grafo."
-> `../../teoria/grafos-algoritmos/temas/06-el-espacio-de-las-listas-es-lineal-en-el.md` — "Espacio total: Θ(n + m)."
+> `../../teoria/grafos-algoritmos-03/temas/05-las-listas-almacenan-solamente-los-vecin.md` — "El orden de los vecinos no está determinado por el grafo."
+> `../../teoria/grafos-algoritmos-03/temas/06-el-espacio-de-las-listas-es-lineal-en-el.md` — "Espacio total: Θ(n + m)."
 
 #### Estructura 2 — Lista de adyacencias con índice cruzado
 
@@ -68,9 +68,9 @@ Cuesta un número entero más por entrada (el doble de memoria por arista, pero 
 
 Una tabla de n × n casilleros de verdadero/falso. `A[v][w]` es verdadero si y solo si v y w son vecinos. **La fila v es exactamente N(v)**, escrita como un vector de "sí/no" para todos los vértices del grafo, existan o no esas aristas.
 
-![Matriz de adyacencias del mismo grafo](../../teoria/grafos-algoritmos/imagenes/Graph_Algorithms.pdf-0005-10.png)
+![Matriz de adyacencias del mismo grafo](../../teoria/grafos-algoritmos-03/imagenes/Graph_Algorithms.pdf-0005-10.png)
 
-> `../../teoria/grafos-algoritmos/temas/08-la-matriz-reserva-una-posici-n-para-cada.md` — "Espacio: Θ(n²). Consultar vw ∈ E: O(1). Recorrer N(v): O(n). La fila v codifica N(v)."
+> `../../teoria/grafos-algoritmos-03/temas/08-la-matriz-reserva-una-posici-n-para-cada.md` — "Espacio: Θ(n²). Consultar vw ∈ E: O(1). Recorrer N(v): O(n). La fila v codifica N(v)."
 
 Si el grafo es no dirigido la matriz es **simétrica** (`A = Aᵀ`, o sea `A[v][w] = A[w][v]`), así que la mitad de la tabla es información repetida.
 
@@ -101,7 +101,7 @@ Es un híbrido: guarda **solo los vecinos que existen** (como las listas) pero r
 
 (*u = n−1, el último vértice, por el truco de renumerado que explico en la operación 6.*)
 
-> `../../teoria/grafos-algoritmos/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — tabla Espacio / Consultar vw ∈ E / Recorrer N(v) / Recorrer todas las aristas, para Listas y Matriz.
+> `../../teoria/grafos-algoritmos-03/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — tabla Espacio / Consultar vw ∈ E / Recorrer N(v) / Recorrer todas las aristas, para Listas y Matriz.
 
 ---
 
@@ -118,7 +118,7 @@ Es un híbrido: guarda **solo los vecinos que existen** (como las listas) pero r
 #### 2. Determinar si v y w son adyacentes
 
 - **Listas (1 y 2):** no hay atajo, hay que **recorrer N(v) buscando w** → O(d(v)). Truco barato: si guardo el tamaño de cada lista, comparo y recorro **la más corta de las dos** → O(mín(d(v), d(w))). En el peor caso (un vértice conectado a todos) esto es O(n).
-  > `../../teoria/grafos-algoritmos/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "decidir si vw ∈ E: O(d(v)). Para decidir adyacencia debemos buscar w dentro de la lista de v."
+  > `../../teoria/grafos-algoritmos-03/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "decidir si vw ∈ E: O(d(v)). Para decidir adyacencia debemos buscar w dentro de la lista de v."
   Si además mantengo las listas ordenadas (operación 8) y son arreglos dinámicos, puedo hacer **búsqueda binaria** y bajar a O(log d(v)). Con listas enlazadas no, porque no puedo saltar al elemento del medio.
 - **Matriz (3):** miro `A[v][w]` y listo → **O(1) garantizado**. Es su gran ventaja y la razón por la que aparece en algoritmos como el cúbico de triángulos (Ejercicio 2).
 - **Hash (4):** O(1) **esperado**. Ojo con la diferencia: la matriz da O(1) *siempre*; el hash da O(1) *en promedio*, y si todos los vecinos caen en el mismo balde degenera a O(d(v)).
@@ -140,7 +140,7 @@ Como los vértices son 0..n−1, el vértice nuevo es el número n y va al final
 #### 5. Insertar una arista (v, w)
 
 - **Listas (1):** agrego w al final de N(v) y v al final de N(w) → **O(1) amortizado**. Pero *si quiero garantizar que no haya aristas repetidas*, primero tengo que verificar que w no esté ya en N(v) → sube a **O(d(v))**.
-  > `../../teoria/grafos-algoritmos/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "insertar vw: O(1)."
+  > `../../teoria/grafos-algoritmos-03/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "insertar vw: O(1)."
   Detalle fino: con arreglo dinámico el O(1) es **insertando al final**; insertar adelante costaría O(d(v)) por el corrimiento. Con lista enlazada insertar adelante es O(1).
 - **Listas con índice cruzado (2):** O(1) igual, y aprovecho que sé las dos posiciones recién creadas para escribir los dos índices. **Importante: hay que insertar al final**, porque insertar en el medio de un arreglo corre elementos y **deja desactualizados los índices cruzados que apuntaban a ellos**.
 - **Matriz (3):** `A[v][w] = A[w][v] = verdadero` → **O(1) garantizado**, y las repetidas se evitan solas (un casillero booleano no se puede poner en verdadero "dos veces").
@@ -153,7 +153,7 @@ Acá se ve la diferencia más grande entre las cuatro. El problema tiene dos par
 Para (b) el truco estándar es **no compactar**: intercambio v con el último vértice u = n−1 y después borro el último. Así solo hay que renombrar a **un** vértice en vez de correr todos.
 
 - **Listas simples (1):** para cada w ∈ N(v) tengo que **buscar** v adentro de N(w) para poder sacarlo → O(d(w)) cada uno. Sumando sobre todos los vecinos, en el peor caso recorro medio grafo → **O(n + m)**. Además el renombrado de u obliga a otra ronda de búsquedas.
-  > `../../teoria/grafos-algoritmos/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "remover v: O(n + m) (peor caso)."
+  > `../../teoria/grafos-algoritmos-03/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "remover v: O(n + m) (peor caso)."
 - **Listas con índice cruzado (2):** para cada w ∈ N(v) **salto directo** a la copia de v dentro de N(w) en O(1) y la borro en O(1) (la piso con el último elemento de N(w) y corrijo el índice de ese elemento movido, al que también llego en O(1)) → **O(d(v))**. El renombrado de u cuesta O(d(u)) por el mismo mecanismo. Total **O(d(v) + d(u))**: esta estructura existe justamente para esto.
   ⚠️ El precio: borrar pisando con el último elemento **desordena** la lista, así que es incompatible con la operación 8.
 - **Matriz (3):** pongo en falso la fila v y la columna v → Θ(n); con el intercambio con la última fila/columna y el achique, sigue siendo **Θ(n)**. Si en cambio quisiera compactar corriendo todas las filas y columnas, sería Θ(n²). Nota: el espacio **no baja** salvo que realmente achique la tabla.
@@ -162,7 +162,7 @@ Para (b) el truco estándar es **no compactar**: intercambio v con el último v�
 #### 7. Remover una arista (v, w)
 
 - **Listas simples (1):** busco w en N(v) y v en N(w) → **O(d(v) + d(w))**.
-  > `../../teoria/grafos-algoritmos/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "remover vw: O(d(v) + d(w))."
+  > `../../teoria/grafos-algoritmos-03/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — "remover vw: O(d(v) + d(w))."
 - **Listas con índice cruzado (2):** si me dan solo los números v y w, igual tengo que **encontrar** la entrada dentro de N(v) → O(d(v)); pero una vez encontrada, borrar **las dos copias** es O(1). Si el algoritmo ya viene con la referencia a la arista en la mano (que es lo normal cuando la está recorriendo), es **O(1) completo**. Con listas enlazadas y punteros al nodo gemelo en vez de índices, el borrado es O(1) y además no hay corrimientos.
 - **Matriz (3):** dos asignaciones → **O(1) garantizado**.
 - **Hash (4):** dos borrados → **O(1) esperado**, y a diferencia de la estructura 2, **sin necesitar la referencia previa**: alcanza con los números v y w. Es la mejor para borrado dinámico de aristas.
@@ -184,7 +184,7 @@ Esto sirve, por ejemplo, para que BFS y DFS visiten los vecinos siempre en el mi
 
 El punto de quiebre está en **la densidad**: la matriz paga n² pase lo que pase, mientras que las listas pagan n + m. Con m ≈ n (grafo ralo) las listas ganan por lejos; con m ≈ n²/2 (grafo denso) los dos ocupan lo mismo del orden y la matriz encima responde adyacencia en O(1).
 
-> `../../teoria/grafos-algoritmos/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — "Grafo con pocas aristas: suelen convenir las listas porque n + m ≪ n² si m ∼ n. Grafo denso: puede convenir la matriz."
+> `../../teoria/grafos-algoritmos-03/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — "Grafo con pocas aristas: suelen convenir las listas porque n + m ≪ n² si m ∼ n. Grafo denso: puede convenir la matriz."
 
 ---
 
@@ -192,8 +192,8 @@ El punto de quiebre está en **la densidad**: la matriz paga n² pase lo que pas
 
 **No hay una ganadora universal.** La estructura se elige mirando cuál es la operación que el algoritmo hace más veces.
 
-> `../../teoria/grafos-algoritmos/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — "No hay una representación universalmente mejor."
-> `../../teoria/grafos-algoritmos/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — "La operación dominante orienta la elección."
+> `../../teoria/grafos-algoritmos-03/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — "No hay una representación universalmente mejor."
+> `../../teoria/grafos-algoritmos-03/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — "La operación dominante orienta la elección."
 
 | Situación | Elegir | Por qué |
 |---|---|---|
@@ -209,14 +209,14 @@ Y la observación práctica que conviene tener a mano: la estructura 2 y la estr
 
 ### Fuentes citadas
 
-- `../../teoria/grafos-algoritmos/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — El grafo y su representación son objetos diferentes
-- `../../teoria/grafos-algoritmos/temas/03-representamos-el-grafo-mediante-sus-veci.md` — Representamos el grafo mediante sus vecindarios
-- `../../teoria/grafos-algoritmos/temas/04-un-mismo-grafo-admite-distintas-represen.md` — Un mismo grafo admite distintas representaciones
-- `../../teoria/grafos-algoritmos/temas/05-las-listas-almacenan-solamente-los-vecin.md` — Las listas almacenan solamente los vecinos existentes
-- `../../teoria/grafos-algoritmos/temas/06-el-espacio-de-las-listas-es-lineal-en-el.md` — El espacio de las listas es lineal en el tamaño del grafo
-- `../../teoria/grafos-algoritmos/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — Los costos dependen de cómo implementamos cada lista
-- `../../teoria/grafos-algoritmos/temas/08-la-matriz-reserva-una-posici-n-para-cada.md` — La matriz reserva una posición para cada par de vértices
-- `../../teoria/grafos-algoritmos/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — La operación dominante orienta la elección
+- `../../teoria/grafos-algoritmos-03/temas/02-el-grafo-y-su-representaci-n-son-objetos.md` — El grafo y su representación son objetos diferentes
+- `../../teoria/grafos-algoritmos-03/temas/03-representamos-el-grafo-mediante-sus-veci.md` — Representamos el grafo mediante sus vecindarios
+- `../../teoria/grafos-algoritmos-03/temas/04-un-mismo-grafo-admite-distintas-represen.md` — Un mismo grafo admite distintas representaciones
+- `../../teoria/grafos-algoritmos-03/temas/05-las-listas-almacenan-solamente-los-vecin.md` — Las listas almacenan solamente los vecinos existentes
+- `../../teoria/grafos-algoritmos-03/temas/06-el-espacio-de-las-listas-es-lineal-en-el.md` — El espacio de las listas es lineal en el tamaño del grafo
+- `../../teoria/grafos-algoritmos-03/temas/07-los-costos-dependen-de-c-mo-implementamo.md` — Los costos dependen de cómo implementamos cada lista
+- `../../teoria/grafos-algoritmos-03/temas/08-la-matriz-reserva-una-posici-n-para-cada.md` — La matriz reserva una posición para cada par de vértices
+- `../../teoria/grafos-algoritmos-03/temas/09-la-operaci-n-dominante-orienta-la-elecci.md` — La operación dominante orienta la elección
 - `practica_3.md` — Ejercicio 1 (Representación de grafos)
 
 **Imágenes propias** (creadas para este ejercicio): `../../../imagenes/ej1-indice-cruzado.png`, `../../../imagenes/ej1-hash.png`, `../../../imagenes/ej1-espacio-matriz-vs-listas.png`
