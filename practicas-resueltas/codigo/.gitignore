@@ -1,0 +1,6 @@
+# binarios compilados (cada p*.cpp genera un ejecutable con su mismo nombre)
+p1_pascal
+p2_*
+p3_*
+*.o
+*.dSYM/
