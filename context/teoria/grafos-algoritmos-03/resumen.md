@@ -522,6 +522,16 @@ ciclo, y no existe orden topológico.
 
 # Aristas de corte (puentes) con DFS
 
+## Ojo: `d[u]` cambia de significado en DFS
+
+En BFS, `d[v]` es **distancia** (cantidad de aristas hasta `s`). En DFS
+(Depth-First Search, búsqueda en profundidad) es otra cosa: `d[u]` es el
+**tiempo de descubrimiento** — el valor de un contador global `tiempo` que se
+incrementa cada vez que un vértice pasa a gris (se descubre) o a negro
+(termina). Así, `d[u]` es simplemente "en qué paso lo descubrí" (un número
+entre 1 y $2|V|$), no una distancia. `f[u]` es el tiempo de finalización
+(cuando pasa a negro), y vale siempre `d[u] < f[u]`.
+
 ## Clasificación de aristas en DFS
 
 Cuando DFS (Depth-First Search, búsqueda en profundidad) examina una arista
@@ -620,3 +630,5 @@ Complejidad: $O(|V| + |E|)$ — es una DFS más trabajo constante por arista.
 - `temas/121-idea-del-algoritmo.md` (L1-36) — los tres pasos del algoritmo
 - `temas/153-las-dos-actualizaciones-de-low-re-nen-to.md` (L1-6), `temas/154-un-hijo-v-termina-de-procesarse.md` (L1-58) — las actualizaciones de `low`
 - `temas/157-teorema.md` (L1-76) — criterio `low[v] > d[u]`
+- `temas/73-tiempos-de-descubrimiento-y-de-finalizac.md` (L1-14) — `d[u]`/`f[u]` como tiempos, no distancias
+- `temas/117-d-u-conserva-el-significado-de-las-filmi.md` (L1-13) — `d[u]` = contador `tiempo` al descubrir

@@ -138,6 +138,197 @@ justificar **por qué** son $n-1$. Ese "por qué" es toda la demostración.
 **Dato:** el palomar acá se puede usar en su versión "función no inyectiva":
 $\deg : V \to \{0, \dots, n-1\}$ con $|V| > |{\rm imagen}|$.
 
+#### Demostración formal
+
+Sea $G$ un grafo simple (sin lazos ni aristas múltiples) **no trivial**, es
+decir con $n = |V(G)| \geq 2$.
+
+**Hipótesis del absurdo.** Supongamos que $G$ tiene *menos de dos* vértices del
+mismo grado, o sea que **no hay dos vértices distintos con el mismo grado**.
+Equivale a decir que la función grado
+
+$$\deg : V(G) \longrightarrow \mathbb{Z}_{\geq 0}, \qquad v \mapsto \deg(v)$$
+
+es **inyectiva** (vértices distintos $\Rightarrow$ grados distintos).
+
+**Paso 1 — acotar el codominio.** En un grafo simple, cada vértice $v$ es
+adyacente a lo sumo a los otros $n-1$ vértices, y nunca a sí mismo. Entonces
+
+$$0 \leq \deg(v) \leq n-1 \quad \text{para todo } v \in V(G),$$
+
+así que $\deg$ toma valores en el conjunto $\{0, 1, \dots, n-1\}$, que tiene
+exactamente $n$ elementos.
+
+**Paso 2 — de inyectiva a biyectiva.** Tenemos $\deg : V(G) \to \{0,\dots,n-1\}$
+inyectiva, con $|V(G)| = n = |\{0,\dots,n-1\}|$. Una función inyectiva entre dos
+conjuntos finitos del mismo cardinal es **biyectiva**. Por lo tanto $\deg$ es
+sobreyectiva: **todo** valor de $\{0, 1, \dots, n-1\}$ es el grado de algún
+vértice. En particular existen
+
+$$u \in V(G) \ \text{con}\ \deg(u) = 0, \qquad
+  w \in V(G) \ \text{con}\ \deg(w) = n-1.$$
+
+Además $u \neq w$, porque $n \geq 2$ implica $0 \neq n-1$.
+
+**Paso 3 — el absurdo.** $\deg(w) = n-1$ significa que $w$ es adyacente a los
+otros $n-1$ vértices del grafo, es decir a **todos** los vértices salvo él
+mismo. En particular $w$ es adyacente a $u$, con lo cual esa arista $uw$ aporta
+al grado de $u$ y entonces $\deg(u) \geq 1$.
+
+Pero habíamos obtenido $\deg(u) = 0$. Contradicción: $\deg(u) = 0$ y
+$\deg(u) \geq 1$ a la vez.
+
+**Conclusión.** La hipótesis del absurdo es falsa. Luego todo grafo simple no
+trivial tiene **al menos dos vértices distintos con el mismo grado**. $\blacksquare$
+
+##### Variante del remate con el palomar (Paso 3 alternativo)
+
+En lugar de usar la biyección, alcanza con esta observación: los valores $0$ y
+$n-1$ **no pueden estar los dos** en la imagen de $\deg$. Si algún vértice
+tuviera grado $n-1$ sería adyacente a todos, y entonces ningún vértice podría
+tener grado $0$; y al revés. Entonces la imagen de $\deg$ está contenida en un
+conjunto de a lo sumo $n-1$ valores (o $\{0,\dots,n-2\}$ o $\{1,\dots,n-1\}$).
+
+Tenemos así $\deg : V(G) \to B$ con $|V(G)| = n$ y $|B| \leq n-1$, o sea
+$|A| > |B|$. Por el **principio del palomar** (una función entre conjuntos
+finitos con $|A| > |B|$ no puede ser inyectiva), existen $x \neq y$ con
+$\deg(x) = \deg(y)$. Esto contradice la hipótesis del absurdo, y se concluye
+igual.
+
+**Nota sobre "no trivial".** La hipótesis $n \geq 2$ se usa dos veces: para que
+$0 \neq n-1$ (y así $u \neq w$), y para que la frase "dos vértices distintos"
+tenga sentido. Con $n = 1$ (grafo trivial) el enunciado es falso: un único
+vértice no tiene con quién compartir grado.
+
+**Nota sobre "grafo simple" (fuera de fuente).** El enunciado original sólo
+dice "todo grafo no trivial", sin aclarar "simple" — lo agrego yo en la
+demostración porque **la afirmación es falsa sin esa aclaración**, no por
+prolijidad. Dos contraejemplos:
+
+- *Con un lazo:* $V=\{u,v\}$, sin arista $uv$, pero con un lazo en $u$. Con la
+  convención de que un lazo suma $2$ al grado, $\deg(u)=2$ y $\deg(v)=0$: son
+  $n=2$ vértices con grados distintos. La proposición ya falla en el caso más
+  chico posible.
+- *Con aristas múltiples (sin lazos):* $V=\{a,b,c\}$, con $0$ aristas $ab$, $1$
+  arista $ac$ y $2$ aristas $bc$ (en paralelo). Entonces $\deg(a)=1$,
+  $\deg(b)=2$, $\deg(c)=3$: los tres grados son distintos.
+
+En los dos casos se rompe exactamente el **Paso 1** de la demostración
+($0 \le \deg(v) \le n-1$): un lazo o una arista repetida hacen que el grado deje
+de estar acotado por $n-1$, así que ya no hay "más vértices que valores
+posibles de grado" y el palomar no aplica. Por eso "grafo simple" no es una
+convención decorativa acá: es lo que hace que el argumento (y la proposición
+misma) sea cierto.
+
+#### Fuentes
+
+- `context/practica/context/practica_2.md` (L126-128) — enunciado del Ejercicio 6
+- `context/teoria/intro-grafos/temas/37-principio-del-palomar.md` (L11-21) — principio del palomar, versión cajas y versión "función no inyectiva"
+- `context/teoria/intro-grafos/temas/37-principio-del-palomar.md` (L31) — proposición: todo grafo con $\geq 2$ vértices tiene dos vértices distintos del mismo grado
+- `context/teoria/intro-grafos/temas/31-secuencia-de-grados.md` (L3) — secuencia de grados (lista de $\deg(v)$)
+
+---
+
+### Ejercicio 8 ⋆ — Unicidad digrafo
+
+> Un *grafo orientado* es un digrafo $D$ tal que al menos uno de $v \to w$ y
+> $w \to v$ no es arco de $D$, para todo $v, w \in V(D)$. Demostrar que para
+> cada $n$ existe un único grafo orientado cuyos vértices tienen todos grados
+> de salida distintos.
+
+**Qué pide.** $n$ es la cantidad de **vértices** del grafo orientado (no la
+cantidad de aristas). El *grado de salida* $d_{\text{out}}(v)$ de un vértice
+es la cantidad de arcos que **salen** de $v$ (cuántas flechas le arrancan a
+ese vértice, no cuántas aristas tiene el grafo en total). "Único" quiere decir:
+para cada $n$ hay exactamente un grafo orientado (salvo isomorfismo, o sea
+salvo renombrar vértices) con esa propiedad — ni cero, ni dos. Hay que probar
+**existencia** (hay al menos uno) y **unicidad** (no hay dos distintos).
+→ [Grafo orientado](../../teoria/intro-grafos/resumen.md#1-definiciones-básicas)
+→ [Grado de salida en digrafos](../../teoria/intro-grafos/resumen.md#en-digrafos)
+
+**Cómo pensarlo.**
+
+1. **Acotar los valores posibles.** En un grafo orientado de $n$ vértices,
+   cada par de vértices tiene **exactamente un** arco entre ellos (nunca los
+   dos, y tampoco ninguno — sale de orientar cada arista de un grafo no
+   dirigido). Entonces $d_{\text{out}}(v) \in \{0, \dots, n-1\}$: $n$ valores
+   posibles para $n$ vértices. Si además son **todos distintos**, no sobra
+   ningún valor: $d_{\text{out}}$ es una biyección con $\{0, \dots, n-1\}$.
+   Mismo patrón "$n$ valores para $n$ vértices ⇒ biyección" que el
+   Ejercicio 6 de esta guía, arriba.
+2. **Existencia: construí uno.** Ordená los vértices $v_1, \dots, v_n$ y
+   orientá cada par $\{v_i, v_j\}$ con $i<j$ como $v_i \to v_j$. Cada $v_i$
+   manda arco a los $n-i$ vértices que están después:
+   $d_{\text{out}}(v_i) = n-i$, valores $n-1, n-2, \dots, 0$, todos distintos.
+   (Se llama *torneo transitivo*: versión dirigida de un orden total.)
+3. **Unicidad: inducción en $n$.** No alcanza con que tu construcción tenga la
+   propiedad — hay que ver que **cualquier** grafo orientado con grados de
+   salida distintos es forzosamente ese mismo. Sacale el vértice de grado de
+   salida máximo ($n-1$) y fijate qué le queda al resto.
+   → [Inducción](../../teoria/demostraciones/resumen.md#4-inducción)
+
+**Error clásico a evitar:** confundir "grados de salida distintos" con
+"grados de salida $0,1,\dots,n-1$ en algún orden" como si fuera automático por
+el enunciado — es una consecuencia que hay que justificar (paso 1), no un dato
+extra del problema.
+
+#### Demostración formal
+
+Sea $n \geq 1$ fijo. Hay que probar existencia y unicidad (salvo isomorfismo)
+de un grafo orientado $D$ de $n$ vértices con $d_{\text{out}}$ inyectiva.
+
+**Paso 0 — los grados de salida quedan forzados a ser $\{0,\dots,n-1\}$.**
+En un grafo orientado, para cada par $u \neq v$ hay **exactamente un** arco
+entre ellos. Entonces cada vértice $v$ manda arcos hacia algún subconjunto de
+los otros $n-1$ vértices:
+$$0 \leq d_{\text{out}}(v) \leq n-1.$$
+Si los $n$ grados de salida son distintos, $d_{\text{out}} : V(D) \to
+\{0,\dots,n-1\}$ es inyectiva entre conjuntos del mismo cardinal $n$, luego
+**biyectiva**. Los grados de salida son, en algún orden, exactamente
+$0,1,\dots,n-1$.
+
+**Existencia.** Sea $V=\{v_1,\dots,v_n\}$ y $D$ el digrafo con arco
+$v_i \to v_j$ para todo $i<j$ (torneo transitivo). Es grafo orientado: cada
+par tiene un único arco, del menor al mayor índice. $v_i$ tiene arco hacia
+$v_{i+1},\dots,v_n$, o sea $d_{\text{out}}(v_i) = n-i$. Cuando $i$ recorre
+$1,\dots,n$, $n-i$ recorre $n-1,\dots,0$: todos distintos. Existe al menos un
+grafo orientado con la propiedad.
+
+**Unicidad, por inducción en $n$.**
+
+*Caso base* $n=1$: un solo vértice, sin arcos posibles, $d_{\text{out}}$
+trivialmente inyectiva (dominio de un elemento). Único.
+
+*Paso inductivo.* Vale para $n-1$. Sea $D$ un grafo orientado de $n$ vértices
+con $d_{\text{out}}$ inyectiva. Por el Paso 0 hay un vértice $w$ con
+$d_{\text{out}}(w) = n-1$: $w$ tiene arco hacia **cada** uno de los otros
+$n-1$ vértices. En particular $d_{\text{in}}(w) = 0$: nadie tiene arco hacia
+$w$ (si algún $u$ tuviera $u \to w$, como es grafo orientado no puede también
+tener $w \to u$ — pero $w \to u$ es justo lo que ya sabemos que vale para
+**todo** $u \neq w$; contradicción).
+
+Sea $D' = D - w$ (sacar $w$ y sus arcos). $D'$ es grafo orientado de $n-1$
+vértices. Como $d_{\text{in}}(w) = 0$, ningún arco removido era entrante a
+otro vértice, así que sacar $w$ **no cambia** el grado de salida de ninguno de
+los que quedan: $d_{\text{out}}^{D'}(v) = d_{\text{out}}^{D}(v)$ para todo
+$v \neq w$. Esos $n-1$ valores eran distintos en $D$, siguen distintos en
+$D'$. Por hipótesis inductiva, $D'$ es el **único** grafo orientado de $n-1$
+vértices con grados de salida distintos: el torneo transitivo de $n-1$
+vértices.
+
+Entonces $D$ queda totalmente determinado: es $D'$ (único, por HI) más un
+vértice $w$ con arco hacia **todos** los de $D'$ — exactamente la construcción
+de existencia, con $w$ en el rol de $v_1$. No hay otra forma de armar $D$.
+$\blacksquare$
+
+#### Fuentes
+
+- `context/practica/context/practica_2.md` (L134-145) — enunciado del Ejercicio 8 y Figura 2
+- `context/teoria/intro-grafos/resumen.md` (L26-33) — definición de digrafo y grafo orientado
+- `context/teoria/intro-grafos/resumen.md` (L112-120) — grado de salida y grado de entrada en digrafos
+- `context/teoria/intro-grafos/temas/45-grafo-orientado.md` (L1-41) — definición de grafo orientado (fuente original)
+- `context/teoria/intro-grafos/temas/38-grado-de-entrada-y-grado-de-salida.md` (L1-54) — definición de $d_{\text{out}}$
+
 ---
 
 ### Ejercicio 11 ⋆ — Particiones conexas
@@ -188,6 +379,67 @@ ojo que $G[A]$ es **inducido**: elegís vértices, las aristas vienen solas.
 **Error clásico a evitar:** en la ida, decir "es conexo, entonces hay una arista
 entre $A$ y $B$" sin exhibir el camino. La consigna avisa: *usar la definición
 de camino, no sólo la intuición*.
+
+#### Demostración completa del b)
+
+**($\Rightarrow$) Si $G$ es conexo, toda partición tiene arista cruzada.**
+
+Sea $V(G) = A \,\dot\cup\, B$ una partición cualquiera. Como ninguna caja es
+vacía, existen $u \in A$ y $v \in B$.
+
+Por definición de grafo conexo (todo par de vértices tiene un camino que los
+une), existe un camino
+$$P = v_0, v_1, \dots, v_k$$
+con $v_0 = u$, $v_k = v$, y $\{v_i, v_{i+1}\} \in E(G)$ para todo
+$i = 0, \dots, k-1$.
+
+Como $v_0 \in A$ y $v_k \in B$, y $A,B$ particionan $V(G)$ (todo vértice está
+en $A$ o en $B$, nunca en ambos), el camino tiene que "cambiar de lado" en
+algún punto. Formalmente: sea $i$ el menor índice tal que $v_i \in B$ (existe
+porque $v_k \in B$). Como $v_0 = u \in A$, es $i \geq 1$, así que $v_{i-1}$
+está definido. Por minimalidad de $i$, $v_{i-1} \notin B$, y como $A,B$ es
+partición, $v_{i-1} \in A$.
+
+Entonces $\{v_{i-1}, v_i\}$ es una arista de $G$ (el camino la usa) con un
+extremo en $A$ y el otro en $B$: es la arista cruzada buscada. $\blacksquare$
+
+**($\Leftarrow$) Si toda partición tiene arista cruzada, $G$ es conexo.**
+
+Por contrarrecíproco: asumimos que $G$ **no** es conexo y construimos una
+partición sin ninguna arista cruzada.
+
+Como $G$ no es conexo, existen $u, w \in V(G)$ sin camino entre ellos.
+Definimos
+$$A = \{\, x \in V(G) : \text{existe un camino de } u \text{ a } x \,\}$$
+(los vértices alcanzables desde $u$, incluyendo a $u$ con el camino trivial
+de longitud 0) y $B = V(G) \setminus A$.
+
+- $A \neq \emptyset$ porque $u \in A$.
+- $B \neq \emptyset$ porque $w \notin A$ (no hay camino $u$-$w$), luego
+  $w \in B$.
+- $A, B$ es partición de $V(G)$ por construcción ($B$ es el complemento de
+  $A$).
+
+Veamos que no hay arista cruzada. Si existiera $\{x,y\} \in E(G)$ con
+$x \in A$ e $y \in B$: como $x \in A$ hay un camino
+$u = v_0, \dots, v_k = x$; agregándole la arista $\{x,y\}$ se obtiene el
+camino $u = v_0, \dots, v_k = x, y$, que llega a $y$. Entonces $y$ es
+alcanzable desde $u$, es decir $y \in A$. Pero $y \in B = V(G)\setminus A$:
+contradicción.
+
+Por lo tanto $A,B$ es una partición sin arista cruzada, lo que contradice la
+hipótesis. Entonces $G$ tiene que ser conexo. $\blacksquare$
+
+##### Fuentes
+- `context/teoria/intro-grafos/temas/57-definici-n.md` (L11-15) — definición
+  de grafo conexo.
+- `context/teoria/intro-grafos/temas/47-caminos.md` (L13-25) — definición de
+  camino.
+- `context/teoria/intro-grafos/temas/71-conectividad-y-cortes.md` (L3-23) —
+  enunciado del teorema en la teórica (sin demostración, remite a la
+  práctica).
+- `context/practica/context/practica_2.md` (L184-197) — enunciado del
+  ejercicio 11.
 
 ---
 

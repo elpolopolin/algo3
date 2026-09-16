@@ -34,6 +34,22 @@ grafo orientado.*
 
 ![Grafo G = (V,E)](imagenes/teo2-intro-grafos.pdf-0011-15.png)
 
+### Lazos y aristas múltiples (fuera de fuente)
+
+*Esto no aparece explícito en las diapositivas de esta unidad — lo agrego
+porque la práctica lo da por sabido (ej. enunciado del Ejercicio 6 de la
+Guía 2, "grafo simple, sin lazos ni aristas múltiples").*
+
+- Un **lazo** (o *loop*) es una arista que va de un vértice a **sí mismo**:
+  $e = \{v, v\}$. No conecta dos vértices distintos, conecta uno con él mismo.
+- Una **arista múltiple** es cuando hay **más de una arista** entre el mismo
+  par de vértices $u, v$ (dos "copias" de la misma conexión).
+- Un **grafo simple** es un grafo que **no tiene ninguna de las dos cosas**:
+  sin lazos y sin aristas múltiples. Es el tipo de grafo que se usa casi
+  siempre salvo que se diga lo contrario (por eso la definición de arriba,
+  $G=(V,E)$, ya asume implícitamente que $E$ es un **conjunto** — no un
+  multiconjunto — de pares de vértices distintos).
+
 ## 2. Isomorfismo: cuándo dos grafos son "el mismo"
 
 $G$ y $H$ son **isomorfos** si existe una **biyección** $f: V(G) \to V(H)$ tal
@@ -225,6 +241,30 @@ $$\deg_G(v) + \deg_{\overline{G}}(v) = n - 1 \quad\Longrightarrow\quad \deg_{\ov
 Cada vértice tiene $n-1$ posibles vecinos; los que tiene en $G$ no los tiene en
 $\overline{G}$, y viceversa.
 
+![Complemento](../../../imagenes/complemento.png)
+
+## 9bis. Unión disjunta y junta (fuera de fuente — sólo en la guía, no en la teórica)
+
+*Esto no aparece en las diapositivas de esta unidad: la teórica no define
+unión disjunta ni junta. Sale del enunciado del Ejercicio 15 de la Guía 2 de
+práctica.*
+
+Dados $G$ y $H$ con $V(G) \cap V(H) = \emptyset$ (vértices disjuntos):
+
+- **Unión disjunta** $G \cup H$: se ponen los dos grafos uno al lado del otro,
+  sin agregar ninguna arista nueva.
+  $$V(G \cup H) = V(G) \cup V(H), \qquad E(G \cup H) = E(G) \cup E(H).$$
+- **Junta** $G + H$: se parte de $G \cup H$ y se agregan **todas** las aristas
+  posibles entre un vértice de $G$ y uno de $H$.
+
+$G$ es **grafo unión** si se puede escribir como $G_1 \cup G_2$ (equivale a que
+$G$ sea **disconexo**), y es **grafo junta** si se puede escribir como
+$G_1 + G_2$. La guía pide demostrar que "grafo junta" $\iff$ disconexo,
+pasando por "grafo junta $\iff$ complemento es grafo unión".
+
+![Unión disjunta](../../../imagenes/union_disjunta.png)
+![Junta](../../../imagenes/junta.png)
+
 ## 10. Grafos bipartitos
 
 $G$ es **bipartito** si existe una partición $V(G) = X \,\dot\cup\, Y$ tal que
@@ -272,3 +312,4 @@ Esa segunda mitad es la que después se implementa con BFS.
 - `temas/83-definici-n.md` (L1-46), `temas/86-definici-n.md` (L1-16), `temas/87-proposici-n.md` (L1-38) — biconexo, bloques
 - `temas/88-complemento-de-un-grafo.md` (L1-44), `temas/90-grados-en-el-complemento.md` (L1-46) — complemento
 - `temas/91-grafos-bipartitos.md` (L1-44), `temas/93-coloreo-con-dos-colores.md` (L1-31), `temas/95-un-ciclo-impar-no-es-bipartito.md` (L1-35), `temas/96-caracterizaci-n.md` (L1-18), `temas/97-idea-de-la-demostraci-n.md` (L1-24) — bipartitos y ciclos impares
+- `context/practica/context/practica_2.md` (L224-240) — unión disjunta y junta (no está en la teórica, sólo en la guía)
